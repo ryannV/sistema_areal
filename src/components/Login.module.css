@@ -1,0 +1,54 @@
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #1a4f77;
+    border-radius: 5%;
+    padding: 3%;
+}
+
+.border{
+    border: 2px solid aquamarine;
+}
+
+.campos{
+    display: flex;
+    gap: 5%;
+    margin-bottom: 1.5em;
+}
+
+.title{
+    margin-bottom: 1em;
+}
+
+.submit{
+    margin-top: 25%;
+    display: flex;
+    justify-content: space-around;
+}
+
+button{
+    border: none;
+    cursor: pointer;
+    padding: 4%;
+    border-radius: 10%;
+    background-color: #1a4f77;
+    color: white;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 70%;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #1a4f77; /* Azul moderno no foco */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
