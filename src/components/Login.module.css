@@ -23,7 +23,7 @@
 }
 
 .submit{
-    margin-top: 25%;
+    margin-top: 15%;
     display: flex;
     justify-content: space-around;
 }
@@ -32,7 +32,8 @@ button{
     border: none;
     cursor: pointer;
     padding: 4%;
-    border-radius: 10%;
+    width: 80%;
+    border-radius: 10px;
     background-color: #1a4f77;
     color: white;
 }
@@ -43,6 +44,7 @@ input[type="password"] {
     border: 2px solid #ccc;
     border-radius: 5px;
     outline: none;
+    padding: 0 0 0 5px;
     transition: all 0.3s ease-in-out;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }

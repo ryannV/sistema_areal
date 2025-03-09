@@ -20,7 +20,6 @@ const Login = () => {
         </div>
 
         <div className={styles.submit}>
-          <button>Cadastro</button>
           <button onClick={() => navigate('/main')}>Acessar</button>
         </div>
       </div>

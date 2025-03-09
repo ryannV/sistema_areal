@@ -15,7 +15,11 @@ const Main = () => {
             <li>Abastecimento</li>
           </ul>
         </nav>
-        <main>Imagens dos Maquinarios</main>
+        <main>
+          <div>
+            Imagem do Maquinario
+          </div>
+        </main>
       </div>
     </div>
   );
