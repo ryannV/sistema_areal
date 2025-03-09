@@ -1,0 +1,11 @@
+*{
+  padding: 0;
+  margin: 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100vh; /* Garante que o body também não cause scroll */
+  overflow: hidden; /* Remove barras de rolagem */
+}
