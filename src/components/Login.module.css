@@ -8,7 +8,6 @@
     padding: 3%;
 }
 
-<<<<<<< HEAD
 .container_second {
     align-items: center;
     display: flex;
@@ -17,8 +16,6 @@
     user-select: none;
 }
 
-=======
->>>>>>> 99f6a195eb051b5d32415fa995171c77c2ffc7fe
 .border{
     border: 2px solid aquamarine;
 }
@@ -29,7 +26,6 @@
     margin-bottom: 1.5em;
 }
 
-<<<<<<< HEAD
 img{
     width: 200px;
     text-align: center;
@@ -37,15 +33,7 @@ img{
 }
 
 .submit{
-    width: 100%;
-=======
-.title{
-    margin-bottom: 1em;
-}
-
-.submit{
     margin-top: 15%;
->>>>>>> 99f6a195eb051b5d32415fa995171c77c2ffc7fe
     display: flex;
     justify-content: space-around;
 }
@@ -54,11 +42,7 @@ button{
     border: none;
     cursor: pointer;
     padding: 4%;
-<<<<<<< HEAD
     width: 100%;
-=======
-    width: 80%;
->>>>>>> 99f6a195eb051b5d32415fa995171c77c2ffc7fe
     border-radius: 10px;
     background-color: #1a4f77;
     color: white;
