@@ -26,10 +26,14 @@
     margin-bottom: 1.5em;
 }
 
-img{
+.logo{
     width: 200px;
     text-align: center;
     align-items: center;
+}
+
+.icons{
+    width: 30px;
 }
 
 .submit{
@@ -62,6 +66,6 @@ input[type="password"] {
 
 input[type="text"]:focus,
 input[type="password"]:focus {
-    border-color: #1a4f77; /* Azul moderno no foco */
+    border-color: #1a4f77;
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
 }
