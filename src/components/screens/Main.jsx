@@ -9,7 +9,7 @@ const Main = () => {
       <Titulo />
       <section className={styles.container}>
         <Menu />
-        <p>Main</p>
+        {/* <p>Main</p> */}
       </section>
     </div>
   );
