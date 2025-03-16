@@ -3,12 +3,22 @@
 }
 
 .container_second{
-    /* align-items: center; */
     margin: 0 auto;
     display: flex;
-    border: 2px solid #1a4f77;
-    /* height: 50%; */
-    /* position: absolute; */
-    /* top: 30%; */
-    /* left: 27%; */
-}   
+    width: 40%;
+    margin-top: 1em;
+}
+
+.flex{
+    display: flex;
+}
+
+form div div label input[type="radio"]{
+    margin: 0.5em 0.5em 0 0;
+}
+
+.botao{
+    display: flex;
+    margin-top: 1em;
+    gap: 5px;
+}

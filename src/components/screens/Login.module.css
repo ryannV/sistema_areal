@@ -37,20 +37,26 @@
 }
 
 .submit{
-    margin-top: 15%;
     width: 100%;
     display: flex;
     justify-content: space-around;
 }
 
 button{
+    height: 40px;
     border: none;
     cursor: pointer;
-    padding: 4%;
     width: 100%;
     border-radius: 10px;
     background-color: #1a4f77;
     color: white;
+    text-align: center;
+    transition: all 0.5s;
+}
+
+button:hover{
+    background-color: rgb(52, 143, 212);
+    /* transform: scale(1.0); */
 }
 
 input[type="text"],
@@ -61,7 +67,7 @@ input[type="password"] {
     outline: none;
     padding: 0 0 0 5px;
     transition: all 0.3s ease-in-out;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); 
 }
 
 input[type="text"]:focus,

@@ -26,14 +26,14 @@ const Abastecimento = () => {
               <option value="opcao3">Opção 3</option>
             </select>
 
-            <button>Limpar</button>
+            <button className={styles.botao}>Limpar</button>
           </div>
 
           <div className={styles.boxes}>
             <label htmlFor="">Quantidade</label>
             <input type="number" />
 
-            <button>Confirmar</button>
+            <button className={styles.botao}>Confirmar</button>
           </div>
 
         </main>

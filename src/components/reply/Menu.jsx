@@ -17,6 +17,10 @@ const Menu = () => {
       setSelected("Menu Principal");
     } else if (location.pathname === "/Abastecimento") {
       setSelected("Abastecimento");
+    } else if (location.pathname === "/Usuario") {
+      setSelected("Usuario");
+    } else if (location.pathname === "/Maquinario") {
+      setSelected("Maquinario");
     }
   }, [location.pathname]);
 
@@ -44,7 +48,7 @@ const Menu = () => {
             </li>
             <li onClick={() => handleNavigation('/Maquinario')}
               className={selected === "Maquinario" ? styles.selected : ""}>
-              Maquinários
+              Maquinário
             </li>
             <li onClick={() => navigate('/')}>
             <img src={logout} alt="logout" /></li>
