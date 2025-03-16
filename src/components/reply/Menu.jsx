@@ -33,6 +33,19 @@ const Menu = () => {
               className={selected === "Abastecimento" ? styles.selected : ""}>
               Abastecimento
             </li>
+
+            <div className={styles.label}>
+              <span>Cadastros</span>
+            </div>
+
+            <li onClick={() => handleNavigation('/Usuario')}
+              className={selected === "Usuario" ? styles.selected : ""}>
+              Usuário
+            </li>
+            <li onClick={() => handleNavigation('/Maquinario')}
+              className={selected === "Maquinario" ? styles.selected : ""}>
+              Maquinários
+            </li>
             <li onClick={() => navigate('/')}>
             <img src={logout} alt="logout" /></li>
           </ul>
