@@ -1,45 +1,96 @@
-import styles from './Maquinario.module.css'
+import { useState } from 'react';
+import styles from './Maquinario.module.css';
 import Titulo from '../reply/Titulo';
 import Menu from '../reply/Menu';
 import Input from '../reply/Input';
 
 const Maquinario = () => {
+    const [maquinario, setMaquinario] = useState('');
+    const [dataFabricacao, setDataFabricacao] = useState('');
+    const [tipo, setTipo] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const novoMaquinario = {
+            id: 0, // O backend deve gerar o ID automaticamente
+            nome: maquinario,
+            dataFabricacao,
+            tipo
+        };
+
+        try {
+            const response = await fetch('https://localhost:7027/api/Maquinario/cadastrar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(novoMaquinario),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                alert(`Maquinário cadastrado com sucesso! ID: ${data.id}`);
+            } else {
+                alert('Erro ao cadastrar maquinário!');
+            }
+        } catch (error) {
+            console.error('Erro na requisição:', error);
+            alert('Erro ao conectar com a API.');
+        }
+    };
+
     return (
         <div>
             <Titulo />
             <section className={styles.container}>
                 <Menu />
                 <main className={styles.container_second}>
-                    <form>
-                        <Input type='text' name="maquinario" placeholder='Digite seu Maquinário' htmlfor='maquinario' label='Maquinário' />
-                        <Input type='date' name="data" placeholder='' htmlfor='data' label='Data de Fabricação'/>
+                    <form onSubmit={handleSubmit}>
+                        <Input
+                            type='text'
+                            name="maquinario"
+                            placeholder='Digite seu Maquinário'
+                            htmlFor='maquinario'
+                            label='Maquinário'
+                            value={maquinario}
+                            onChange={(e) => setMaquinario(e.target.value)}
+                        />
+                        <Input
+                            type='date'
+                            name="data"
+                            placeholder=''
+                            htmlFor='data'
+                            label='Data de Fabricação'
+                            value={dataFabricacao}
+                            onChange={(e) => setDataFabricacao(e.target.value)}
+                        />
                         <div>
-                            <label htmlFor="funcao">Tipo do Maquinário</label>
+                            <label htmlFor="tipo">Tipo do Maquinário</label>
                             <div className={styles.flex}>
-                                <label htmlFor="admin">
-                                    <input type="radio" name="funcao"/>
-                                    Draga
-                                </label>
-                                <label htmlFor="admin">
-                                    <input type="radio" name="funcao"/>
-                                    Carregadeira
-                                </label>
-                                <label htmlFor="admin">
-                                    <input type="radio" name="funcao"/>
-                                    Caminhão
-                                </label>
+                                {['Draga', 'Carregadeira', 'Caminhão'].map((tipoMaquinario) => (
+                                    <label key={tipoMaquinario}>
+                                        <input
+                                            type="radio"
+                                            name="tipo"
+                                            value={tipoMaquinario}
+                                            checked={tipo === tipoMaquinario}
+                                            onChange={(e) => setTipo(e.target.value)}
+                                        />
+                                        {tipoMaquinario}
+                                    </label>
+                                ))}
                             </div>
                         </div>
                         <div className={styles.botao}>
-                            <button>Limpar</button>
-                            <button>Cadastrar</button>
+                            <button type="reset" onClick={() => { setMaquinario(''); setDataFabricacao(''); setTipo(''); }}>Limpar</button>
+                            <button type="submit">Cadastrar</button>
                         </div>
-                        
                     </form>
                 </main>
             </section>
         </div>
-    )
-}
+    );
+};
 
 export default Maquinario;

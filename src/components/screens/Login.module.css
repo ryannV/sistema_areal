@@ -75,3 +75,10 @@ input[type="password"]:focus {
     border-color: #1a4f77;
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
 }
+
+.erro {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+  }

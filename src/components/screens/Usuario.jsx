@@ -1,62 +1,155 @@
-import styles from './Usuario.module.css'
+import { useState } from 'react';
+import styles from './Usuario.module.css';
 import Titulo from '../reply/Titulo';
 import Menu from '../reply/Menu';
 import Input from '../reply/Input';
 
 const Usuario = () => {
+    const [formData, setFormData] = useState({
+        usuario: '', senha: '', confirmarSenha: '', email: '', cpf: '',
+        rua: '', bairro: '', cep: '', cidade: '', estado: '', numero: '', funcao: '',
+    });
+    
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        console.log(`📝 Campo alterado: ${name}, Novo valor: ${value}`);
+        setFormData(prevState => ({ ...prevState, [name]: value }));
+        setError('');
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log('🚀 handleSubmit foi chamado!');
+        console.log('🔍 Dados do formulário antes do envio:', formData);
+
+        if (formData.senha !== formData.confirmarSenha) {
+            setError('As senhas não coincidem.');
+            return;
+        }
+
+        const requiredFields = ['usuario', 'senha', 'confirmarSenha', 'email', 'cpf'];
+        for (let field of requiredFields) {
+            if (!formData[field]) {
+                setError(`O campo ${field} é obrigatório.`);
+                return;
+            }
+        }
+
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(formData.email)) {
+            setError('O formato do email é inválido.');
+            return;
+        }
+
+        const requestPayload = {
+            ...formData,
+            endereco: `${formData.rua}, ${formData.bairro}, ${formData.numero}, ${formData.cidade} - ${formData.estado}, CEP: ${formData.cep}`,
+        };
+
+        console.log('📤 Enviando para o backend:', requestPayload);
+        setLoading(true);
+        setError('');
+
+        try {
+            const response = await fetch('https://localhost:7027/api/usuario/cadastrar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestPayload),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.text();
+                console.error('❌ Erro no servidor:', errorData);
+                throw new Error(errorData || 'Erro ao cadastrar usuário');
+            }
+
+            console.log('✅ Usuário cadastrado com sucesso!');
+            alert('Usuário cadastrado com sucesso!');
+            setFormData({ usuario: '', senha: '', confirmarSenha: '', email: '', cpf: '', rua: '', bairro: '', cep: '', cidade: '', estado: '', numero: '', funcao: '' });
+        } catch (error) {
+            console.error('⚠️ Erro na requisição:', error);
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div>
             <Titulo />
             <section className={styles.container}>
                 <Menu />
-
                 <main className={styles.container_second}>
-                    <form>
-                        <Input type='text' name='usuario' placeholder='Digite seu Usuario' htmlfor='usuario' label='Usuário'/>
-                        <Input type='password' name='password' placeholder='Digite sua Senha' htmlfor='password' label='Senha'/>
-                        <Input type='password' name='p-confirm' placeholder='Digite Novamente' htmlfor='p-confirm' label='Confirme sua Senha'/>
-                        <Input type='email' name='email' placeholder='Digite seu Email' htmlfor='email' label='E-mail'/>
-                        <Input type='number' name='number' placeholder='Digite seu CPF' htmlfor='cpf' label='CPF'/>
+                    <form onSubmit={handleSubmit}>
+                        {['usuario', 'senha', 'confirmarSenha', 'email', 'cpf'].map((field) => (
+                            <Input key={field} 
+                                type={field.includes('senha') ? 'password' : 'text'}
+                                name={field} 
+                                placeholder={`Digite seu ${field}`} 
+                                label={field.charAt(0).toUpperCase() + field.slice(1)}
+                                value={formData[field]} 
+                                onChange={handleChange} 
+                                required 
+                            />
+                        ))}
 
-                        {/* Endereço */}
-                        <label style={{color: "#1a4f77"}} htmlFor="endereco">Endereço</label>
+                        <label style={{ color: "#1a4f77" }}>Endereço</label>
                         <div className={styles.flex}>
-                            <Input type='text' name='rua' placeholder='Rua' htmlfor='' label=''/>
-                            <Input type='text' name='bairro' placeholder='Bairro' htmlfor='' label=''/>
+                            {['rua', 'bairro'].map((field) => (
+                                <Input key={field} 
+                                    type='text' 
+                                    name={field} 
+                                    placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                                    value={formData[field]} 
+                                    onChange={handleChange} 
+                                    required 
+                                />
+                            ))}
                         </div>
                         <div className={styles.flex}>
-                            <Input type='number' name='cep' placeholder='CEP' htmlfor='' label=''/>
-                            <Input type='text' name='cidade' placeholder='Cidade' htmlfor='' label=''/>
-                            <Input type='text' name='Estado' placeholder='Estado' htmlfor='' label=''/>
-                            <Input type='number' name='numero' placeholder='Número' htmlfor='' label=''/>
+                            {['cep', 'cidade', 'estado', 'numero'].map((field) => (
+                                <Input key={field} 
+                                    type={field === 'numero' ? 'number' : 'text'}
+                                    name={field} 
+                                    placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                                    value={formData[field]} 
+                                    onChange={handleChange} 
+                                    required 
+                                />
+                            ))}
                         </div>
 
-                        {/* Radio */}
-                        <div>
-                            <label htmlFor="funcao">Função</label>
-                            <div className={styles.flex}>
-                                <label htmlFor="admin">
-                                    <input type="radio" name="funcao" value="admin" />
-                                    Administrador
+                        <label>Função</label>
+                        <div className={styles.flex}>
+                            {['admin', 'operador'].map((func) => (
+                                <label key={func}>
+                                    <input 
+                                        type="radio" 
+                                        name="funcao" 
+                                        value={func} 
+                                        checked={formData.funcao === func} 
+                                        onChange={handleChange} 
+                                        required 
+                                    />
+                                    {func.charAt(0).toUpperCase() + func.slice(1)}
                                 </label>
-
-                                <label htmlFor="operador">
-                                    <input type="radio" name="funcao" value="operador"/>
-                                    Operador
-                                </label>
-                            </div>
+                            ))}
                         </div>
 
-                        {/* Buttons */}
+                        {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+
                         <div className={styles.botao}>
-                            <button>Limpar</button>
-                            <button>Cadastrar</button>
+                            <button type="reset">Limpar</button>
+                            <button type="submit" disabled={loading}>{loading ? 'Cadastrando...' : 'Cadastrar'}</button>
                         </div>
                     </form>
                 </main>
             </section>
         </div>
-    )
-}
+    );
+};
 
 export default Usuario;
