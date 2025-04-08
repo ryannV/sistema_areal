@@ -6,9 +6,7 @@
 }
 
 .navigator{
-    height: 100%;
-    /* border-right: 2px solid #1a4f7737; */
-    /* padding: 1%; */
+    height: 100vh;
 }
 
 .navigator ul {
