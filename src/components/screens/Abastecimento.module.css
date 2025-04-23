@@ -1,41 +1,83 @@
-.container{
+.container {
     display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    height: 100vh; /* Ocupa 100% da altura da tela */
+    padding: 0 15px; /* Adiciona espaçamento para telas menores */
+    background-color: #f4f4f4; /* Cor de fundo leve */
 }
 
-.container_second{
-    align-items: center;
-    margin: 0 auto;
-    display: flex;
-    border: 2px solid #1a4f77;
-    height: 50%;
-    position: absolute;
-    top: 30%;
-    left: 27%;
-}
-
-.boxes{
+.container_second {
+    width: 100%;
+    max-width: 800px;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
-    padding: 50px 100px;
-    user-select: none;
-    /* border: 2px solid #1a4f77; */
+    gap: 20px; /* Espaço entre os campos */
 }
 
-select{
-    width: 200px;
-    margin-top: 3%;
+.boxes {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px; /* Espaço entre os campos */
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 8px; /* Espaçamento entre label e campo */
+}
+
+select, input {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+
+select:focus, input:focus {
+    border-color: #1a4f77;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+
+select {
+    height: 40px;
 }
 
 input[type="number"] {
-    width: 200px;
-    margin-top: 3%;
+    width: 100%;
 }
 
-.botao{
-    margin-top: 5%;
+.botao {
+    width: 200px;
+    padding: 10px;
+    background-color: #1a4f77;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
     user-select: none;
 }
 
-.flex{
-    display: flex;
+.botao:hover {
+    background-color: #15608a;
+}
+
+.botao:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.mensagem {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
 }

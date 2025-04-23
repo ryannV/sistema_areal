@@ -8,7 +8,6 @@ const Relatorio = () => {
     const [maquinarios, setMaquinarios] = useState([]);
     const [selectedTipo, setSelectedTipo] = useState("");
     const [selectedMaquinario, setSelectedMaquinario] = useState("");
-    const [selectedPeriodo, setSelectedPeriodo] = useState("hoje");
     const [relatorio, setRelatorio] = useState([]);
     const [dataInicio, setDataInicio] = useState("");
     const [dataFim, setDataFim] = useState("");
@@ -34,27 +33,36 @@ const Relatorio = () => {
     }, [selectedTipo]);
 
     const gerarRelatorio = async () => {
-        let url = `https://localhost:7027/api/relatorios/gerar?periodo=${selectedPeriodo}`;
+        if (!dataInicio || !dataFim) {
+            alert("Por favor, selecione a data de início e a data final.");
+            return;
+        }
+
+        let url = `https://localhost:7027/api/relatorios/gerar?dataInicial=${dataInicio}&dataFinal=${dataFim}`;
         if (selectedTipo) url += `&tipoMaquinario=${selectedTipo}`;
         if (selectedMaquinario) url += `&maquinarioId=${selectedMaquinario}`;
-        if (selectedPeriodo === "intervalo" && dataInicio && dataFim) {
-            url += `&dataInicial=${dataInicio}&dataFinal=${dataFim}`;
-        }
 
         try {
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error(`Erro na API: ${response.status} ${response.statusText}`);
             }
+
             const data = await response.json();
-            setRelatorio(data);
-            setPaginaAtual(1);
+
+            if (data.length === 0) {
+                alert("Nenhum dado encontrado para o intervalo selecionado.");
+            } else {
+                setRelatorio(data);
+                setPaginaAtual(1);
+            }
         } catch (err) {
             console.error("Erro ao gerar relatório:", err);
+            alert("Ocorreu um erro ao gerar o relatório. Verifique a conexão com a API.");
         }
     };
 
-    // Função para ordenar colunas
+    // Ordenação
     const [ordem, setOrdem] = useState({ coluna: "", crescente: true });
 
     const ordenar = (coluna) => {
@@ -101,23 +109,14 @@ const Relatorio = () => {
                         </div>
 
                         <div className={styles.boxes}>
-                            <label>Período</label>
-                            <select value={selectedPeriodo} onChange={(e) => setSelectedPeriodo(e.target.value)}>
-                                <option value="hoje">Hoje</option>
-                                <option value="ultimos7dias">Últimos 7 dias</option>
-                                <option value="mesAtual">Mês Atual</option>
-                                <option value="intervalo">Intervalo Personalizado</option>
-                            </select>
+                            <label>Data Início</label>
+                            <input type="date" value={dataInicio} onChange={(e) => setDataInicio(e.target.value)} />
                         </div>
 
-                        {selectedPeriodo === "intervalo" && (
-                            <div className={styles.boxes}>
-                                <label>Data Início</label>
-                                <input type="date" value={dataInicio} onChange={(e) => setDataInicio(e.target.value)} />
-                                <label>Data Fim</label>
-                                <input type="date" value={dataFim} onChange={(e) => setDataFim(e.target.value)} />
-                            </div>
-                        )}
+                        <div className={styles.boxes}>
+                            <label>Data Final</label>
+                            <input type="date" value={dataFim} onChange={(e) => setDataFim(e.target.value)} />
+                        </div>
                     </section>
 
                     <div className={styles.flex}>
@@ -126,28 +125,28 @@ const Relatorio = () => {
 
                     {relatorio.length > 0 && (
                         <table className={styles.tabela}>
-                        <thead>
-                            <tr>
-                                <th>Maquinário</th>
-                                <th>Tipo</th>
-                                <th>Litros</th>
-                                <th>Data</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {relatorio.map((r, index) => (
-                                <tr key={index}>
-                                    <td>{r.nomeMaquinario}</td>
-                                    <td>{r.tipoMaquinario}</td>
-                                    <td>{r.quantidadeLitros}</td>
-                                    <td>{new Date(r.data).toLocaleDateString("pt-BR")}</td>
+                            <thead>
+                                <tr>
+                                    <th onClick={() => ordenar("nomeMaquinario")}>Maquinário</th>
+                                    <th onClick={() => ordenar("tipoMaquinario")}>Tipo</th>
+                                    <th onClick={() => ordenar("quantidadeLitros")}>Litros</th>
+                                    <th onClick={() => ordenar("data")}>Data</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {dadosPaginados.map((r, index) => (
+                                    <tr key={index}>
+                                        <td>{r.nomeMaquinario}</td>
+                                        <td>{r.tipoMaquinario}</td>
+                                        <td>{r.quantidadeLitros}</td>
+                                        <td>{new Date(r.data).toLocaleDateString("pt-BR")}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     )}
 
-                    {relatorio.length > 10 && (
+                    {relatorio.length > itensPorPagina && (
                         <div className={styles.paginacao}>
                             <button onClick={() => setPaginaAtual(paginaAtual - 1)} disabled={paginaAtual === 1}>
                                 Anterior

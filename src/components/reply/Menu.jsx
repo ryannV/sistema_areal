@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Menu.module.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import logout from '../../assets/door-closed.svg'
+import logout from '../../assets/door-closed.svg';
 
 const Menu = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const [selected, setSelected] = useState();
   const location = useLocation();
 
@@ -13,17 +13,15 @@ const Menu = () => {
   };
 
   useEffect(() => {
-    if (location.pathname === "/Main") {
-      setSelected("Menu Principal");
-    } else if (location.pathname === "/Abastecimento") {
-      setSelected("Abastecimento");
-    } else if (location.pathname === "/Usuario") {
-      setSelected("Usuario");
-    } else if (location.pathname === "/Maquinario") {
-      setSelected("Maquinario");
-    } else if (location.pathname === "/Relatorio") {
-      setSelected("Relatorio");
-    }
+    const pathToLabel = {
+      "/Main": "Menu Principal",
+      "/Abastecimento": "Abastecimento",
+      "/Usuario": "Usuario",
+      "/Maquinario": "Maquinario",
+      "/Relatorio": "Relatorio",
+      "/Fornecedor": "Fornecedor"
+    };
+    setSelected(pathToLabel[location.pathname]);
   }, [location.pathname]);
 
   return (
@@ -55,8 +53,13 @@ const Menu = () => {
             className={selected === "Maquinario" ? styles.selected : ""}>
             Maquinário
           </li>
+          <li onClick={() => handleNavigation('/Fornecedor')}
+            className={selected === "Fornecedor" ? styles.selected : ""}>
+            Fornecedor
+          </li>
           <li onClick={() => navigate('/')}>
-            <img src={logout} alt="logout" /></li>
+            <img src={logout} alt="logout" />
+          </li>
         </ul>
       </nav>
     </div>

@@ -3,9 +3,10 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border: 1px solid #1a4f77;
-    border-radius: 5%;
-    padding: 3%;
+    padding: 50px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
 }
 
 .container_second {
@@ -22,6 +23,7 @@
 
 .campos{
     display: flex;
+    justify-content: center;
     gap: 5%;
     margin-bottom: 1.5em;
 }
@@ -59,8 +61,7 @@ button:hover{
     /* transform: scale(1.0); */
 }
 
-input[type="text"],
-input[type="password"] {
+.input{
     width: 70%;
     border: 2px solid #ccc;
     border-radius: 5px;
@@ -70,15 +71,7 @@ input[type="password"] {
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); 
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus {
+.input:focus {
     border-color: #1a4f77;
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
 }
-
-.erro {
-    color: red;
-    font-size: 14px;
-    margin-top: 10px;
-    text-align: center;
-  }

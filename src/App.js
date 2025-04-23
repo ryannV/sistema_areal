@@ -5,6 +5,7 @@ import Abastecimento from './components/screens/Abastecimento';
 import Usuario from './components/screens/Usuario';
 import Maquinario from './components/screens/Maquinario';
 import Relatorio from './components/screens/Relatorio';
+import Fornecedor from './components/screens/Fornecedor';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/usuario" element={<Usuario />} />
         <Route path="/maquinario" element={<Maquinario />} />
         <Route path="/relatorio" element={<Relatorio />} />
+        <Route path="/fornecedor" element={<Fornecedor />} />
       </Routes>
     </Router>
   );

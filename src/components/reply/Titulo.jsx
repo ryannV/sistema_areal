@@ -7,7 +7,7 @@ const Titulo = () => {
     <div>
         <section className={styles.top_title}>
           <img src={logo} alt="logo" className={styles.logo} />
-          <h1>Ilha do Areal do Rio Doce</h1>
+          <h1>Areal Ilha do Rio Doce</h1>
         </section>
     </div>
   )
