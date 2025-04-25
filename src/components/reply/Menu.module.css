@@ -1,12 +1,14 @@
 .container{
     display: flex;
-    height: 100vh;
+    height: 100%;
     user-select: none;
     background-color: #f2f2f2;
 }
 
-.navigator{
-    height: 100vh;
+/* No Menu.module.css */
+.navigator {
+    width: 200px; /* por exemplo */
+    height: 100%; /* se quiser garantir no próprio menu também */
 }
 
 .navigator ul {

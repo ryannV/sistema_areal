@@ -87,10 +87,10 @@ const Relatorio = () => {
                 <Menu />
                 <main className={styles.container_second}>
                     <h4>Consulta de Consumo dos Maquinários</h4>
-                    <section>
+                    <section className={styles.center}>
                         <div className={styles.boxes}>
                             <label>Tipo de Maquinário</label>
-                            <select value={selectedTipo} onChange={(e) => setSelectedTipo(e.target.value)}>
+                            <select className={styles.inputs} value={selectedTipo} onChange={(e) => setSelectedTipo(e.target.value)}>
                                 <option value="">Todos</option>
                                 {tiposMaquinarios.map(tipo => (
                                     <option key={tipo} value={tipo}>{tipo}</option>
@@ -100,7 +100,7 @@ const Relatorio = () => {
 
                         <div className={styles.boxes}>
                             <label>Maquinário</label>
-                            <select value={selectedMaquinario} onChange={(e) => setSelectedMaquinario(e.target.value)} disabled={!selectedTipo}>
+                            <select className={styles.inputs} value={selectedMaquinario} onChange={(e) => setSelectedMaquinario(e.target.value)} disabled={!selectedTipo}>
                                 <option value="">Todos desse tipo</option>
                                 {maquinarios.map(maquinario => (
                                     <option key={maquinario.id} value={maquinario.id}>{maquinario.nome}</option>
@@ -110,12 +110,12 @@ const Relatorio = () => {
 
                         <div className={styles.boxes}>
                             <label>Data Início</label>
-                            <input type="date" value={dataInicio} onChange={(e) => setDataInicio(e.target.value)} />
+                            <input className={styles.inputs} type="date" value={dataInicio} onChange={(e) => setDataInicio(e.target.value)} />
                         </div>
 
                         <div className={styles.boxes}>
                             <label>Data Final</label>
-                            <input type="date" value={dataFim} onChange={(e) => setDataFim(e.target.value)} />
+                            <input className={styles.inputs} type="date" value={dataFim} onChange={(e) => setDataFim(e.target.value)} />
                         </div>
                     </section>
 

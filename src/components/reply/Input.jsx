@@ -5,6 +5,7 @@ const Input = ({ type, name, placeholder, htmlfor, label, value, onChange }) => 
         <div className={styles.campos}>
             <label style={{ color: "#1a4f77" }} htmlFor={htmlfor}>{label}</label>
             <input 
+                className={styles.input}
                 type={type} 
                 name={name} 
                 placeholder={placeholder} 

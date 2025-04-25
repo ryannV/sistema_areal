@@ -7,5 +7,5 @@
 
 html, body {
   height: 100vh; /* Garante que o body também não cause scroll */
-  overflow: hidden; /* Remove barras de rolagem */
+  /* overflow: hidden; Remove barras de rolagem */
 }

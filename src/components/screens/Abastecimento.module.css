@@ -1,83 +1,50 @@
 .container {
     display: flex;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
     height: 100vh; /* Ocupa 100% da altura da tela */
-    padding: 0 15px; /* Adiciona espaçamento para telas menores */
-    background-color: #f4f4f4; /* Cor de fundo leve */
 }
 
 .container_second {
     width: 100%;
     max-width: 800px;
-    padding: 40px;
+    margin: auto;
+    padding: 40px 30px;
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease-in-out;
+    /* display: flex; */
+}
+
+.boxes{
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Espaço entre os campos */
+    padding: 50px 80px;
+    user-select: none;
 }
 
-.boxes {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px; /* Espaço entre os campos */
-}
-
-label {
-    font-weight: bold;
-    margin-bottom: 8px; /* Espaçamento entre label e campo */
-}
-
-select, input {
-    padding: 10px;
-    font-size: 16px;
+.inputs {
     border: 2px solid #ccc;
     border-radius: 5px;
     outline: none;
+    padding: 5px;
     transition: all 0.3s ease-in-out;
+    margin-top: 6px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-select:focus, input:focus {
+.inputs:focus {
+    color: #1a4f77;
     border-color: #1a4f77;
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
 }
 
-select {
-    height: 40px;
-}
 
-input[type="number"] {
-    width: 100%;
-}
-
-.botao {
+.botao{
+    margin-top: 10px;
     width: 200px;
-    padding: 10px;
-    background-color: #1a4f77;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
     user-select: none;
 }
 
-.botao:hover {
-    background-color: #15608a;
-}
-
-.botao:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-.mensagem {
-    color: red;
-    margin-top: 10px;
-    font-size: 14px;
-    text-align: center;
+.center {
+    display: flex;
 }

@@ -4,11 +4,7 @@
     margin: 0 0.5em 1em 0;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="number"],
-input[type="date"] {
+.input {
     width: 100%;
     border: 2px solid #ccc;
     border-radius: 5px;
@@ -19,11 +15,7 @@ input[type="date"] {
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus,
-input[type="email"]:focus,
-input[type="date"]:focus {
+.input:focus {
     color: #1a4f77;
     border-color: #1a4f77;
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);

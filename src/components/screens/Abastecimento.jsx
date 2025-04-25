@@ -58,12 +58,15 @@ const Abastecimento = () => {
       <section className={styles.container}>
         <Menu />
         <main className={styles.container_second}>
-          <form onSubmit={handleSubmit}>
+          <form className={styles.center} onSubmit={handleSubmit}>
+
             <div className={styles.boxes}>
               <label htmlFor="comboBox">Maquinário</label>
-              <select
-                id="comboBox"
-                value={selectedMaquinario}
+
+              <select 
+                className={styles.inputs} 
+                id="comboBox" 
+                value={selectedMaquinario} 
                 onChange={(e) => setSelectedMaquinario(e.target.value)}
               >
                 <option value="">Selecione</option>
@@ -73,11 +76,16 @@ const Abastecimento = () => {
                   </option>
                 ))}
               </select>
-            </div>
+
+              <button type="button" className={styles.botao} onClick={() => { setSelectedMaquinario(""); setQuantidade(""); }}>
+                Limpar
+              </button>
+            </div> {/* boxes */}
 
             <div className={styles.boxes}>
               <label htmlFor="quantidade">Quantidade (L)</label>
               <input
+                className={styles.inputs}
                 type="number"
                 id="quantidade"
                 value={quantidade}
@@ -85,18 +93,11 @@ const Abastecimento = () => {
                 min="1"
                 step="0.1"
               />
-            </div>
+
+              <button type="submit" className={styles.botao}>Confirmar</button>
+            </div> {/* boxes */}
 
             {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
-
-            <div className={styles.boxes}>
-              <button type="button" className={styles.botao} onClick={() => { setSelectedMaquinario(""); setQuantidade(""); }}>
-                Limpar
-              </button>
-              <button type="submit" className={styles.botao}>
-                Confirmar
-              </button>
-            </div>
           </form>
         </main>
       </section>

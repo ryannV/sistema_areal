@@ -77,6 +77,19 @@ const Usuario = () => {
         }
     };
 
+    const typeCondition = (field) => {
+        if (field === 'senha' || field === 'confirmarSenha') {
+            return 'password';
+        } else if (field === 'cpf' || field === 'numero') {
+            return 'number';
+        } else if (field === 'email') {
+            return 'email';
+        } else {
+            return 'text';
+        }
+    };
+    
+
     return (
         <div>
             <Titulo />
@@ -86,9 +99,9 @@ const Usuario = () => {
                     <form onSubmit={handleSubmit}>
                         {['usuario', 'senha', 'confirmarSenha', 'email', 'cpf'].map((field) => (
                             <Input key={field} 
-                                type={field.includes('senha') ? 'password' : 'text'}
+                                type={typeCondition(field)}
                                 name={field} 
-                                placeholder={`Digite seu ${field}`} 
+                                placeholder={field.includes('confirmarSenha') ? 'Digite sua senha novamente' : `Digite seu ${field}`} 
                                 label={field.charAt(0).toUpperCase() + field.slice(1)}
                                 value={formData[field]} 
                                 onChange={handleChange} 
@@ -100,7 +113,7 @@ const Usuario = () => {
                         <div className={styles.flex}>
                             {['rua', 'bairro'].map((field) => (
                                 <Input key={field} 
-                                    type='text' 
+                                    type={typeCondition(field)} 
                                     name={field} 
                                     placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
                                     value={formData[field]} 
@@ -124,7 +137,7 @@ const Usuario = () => {
 
                         <label>Função</label>
                         <div className={styles.flex}>
-                            {['admin', 'operador'].map((func) => (
+                            {['administrador', 'operador'].map((func) => (
                                 <label key={func}>
                                     <input 
                                         type="radio" 

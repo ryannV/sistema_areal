@@ -47,6 +47,7 @@ const Login = () => {
         <div className={styles.campos}>
           <img src={user} alt="user" className={styles.icons} />
           <input
+            className={styles.input}
             type="text"
             placeholder="Digite seu Usuário"
             value={usuario}
@@ -58,6 +59,7 @@ const Login = () => {
         <div className={styles.campos}>
           <img src={lock} alt="lock" className={styles.icons} />
           <input
+            className={styles.input}
             type="password"
             placeholder="Digite sua Senha"
             value={senha}
