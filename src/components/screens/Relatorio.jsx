@@ -15,7 +15,7 @@ const Relatorio = () => {
     const itensPorPagina = 10;
 
     useEffect(() => {
-        fetch("https://localhost:7027/api/maquinario/tipos")
+        fetch("http://56.124.46.139:5000/api/maquinario/tipos")
             .then(res => res.json())
             .then(data => setTiposMaquinarios(data))
             .catch(err => console.error("Erro ao buscar tipos de maquinário:", err));
@@ -23,7 +23,7 @@ const Relatorio = () => {
 
     useEffect(() => {
         if (selectedTipo) {
-            fetch(`https://localhost:7027/api/maquinario?tipo=${selectedTipo}`)
+            fetch(`http://56.124.46.139:5000/api/maquinario?tipo=${selectedTipo}`)
                 .then(res => res.json())
                 .then(data => setMaquinarios(data))
                 .catch(err => console.error("Erro ao buscar maquinários:", err));
@@ -38,7 +38,7 @@ const Relatorio = () => {
             return;
         }
 
-        let url = `https://localhost:7027/api/relatorios/gerar?dataInicial=${dataInicio}&dataFinal=${dataFim}`;
+        let url = `http://56.124.46.139:5000/api/relatorios/gerar?dataInicial=${dataInicio}&dataFinal=${dataFim}`;
         if (selectedTipo) url += `&tipoMaquinario=${selectedTipo}`;
         if (selectedMaquinario) url += `&maquinarioId=${selectedMaquinario}`;
 

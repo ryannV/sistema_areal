@@ -11,7 +11,7 @@ const Abastecimento = () => {
 
   // 🚀 Carrega os maquinários ao carregar a página
   useEffect(() => {
-    fetch("https://localhost:7027/api/Maquinario/listar") // Ajuste a URL conforme necessário
+    fetch("http://56.124.46.139:5000/api/Maquinario/listar") // Ajuste a URL conforme necessário
       .then((response) => response.json())
       .then((data) => setMaquinarios(data))
       .catch((error) => console.error("Erro ao buscar maquinários:", error));
@@ -33,7 +33,7 @@ const Abastecimento = () => {
     };
   
     try {
-      const response = await fetch("https://localhost:7027/api/Abastecimento/cadastrar", {
+      const response = await fetch("http://56.124.46.139:5000/api/Abastecimento/cadastrar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(abastecimento),
