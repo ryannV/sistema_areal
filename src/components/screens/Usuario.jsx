@@ -54,7 +54,7 @@ const Usuario = () => {
         setError('');
 
         try {
-            const response = await fetch('http://56.124.46.139:5000/api/usuario/cadastrar', {
+            const response = await fetch('http://localhost:5209/api/usuario/cadastrar', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(requestPayload),

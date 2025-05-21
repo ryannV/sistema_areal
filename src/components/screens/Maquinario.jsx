@@ -20,7 +20,7 @@ const Maquinario = () => {
         };
 
         try {
-            const response = await fetch('http://56.124.46.139:5000/api/Maquinario/cadastrar', {
+            const response = await fetch('http://localhost:5209/api/Maquinario/cadastrar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

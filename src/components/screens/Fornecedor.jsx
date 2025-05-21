@@ -51,7 +51,7 @@ const Fornecedor = () => {
         
         try {
             // Enviar os dados para a API usando Axios
-            const response = await axios.post('http://56.124.46.139:5000/api/Fornecedor/cadastrar', fornecedor);
+            const response = await axios.post('http://localhost:5209/api/Fornecedor/cadastrar', fornecedor);
             
             if (response.status === 200) {
                 alert('Fornecedor cadastrado com sucesso!');
