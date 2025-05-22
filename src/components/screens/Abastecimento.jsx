@@ -19,7 +19,7 @@ const Abastecimento = () => {
       return;
     }
 
-    fetch("http://localhost:5209/api/Maquinario/listar", {
+    fetch("http://localhost:5209/api/Abastecimento/maquinarios", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

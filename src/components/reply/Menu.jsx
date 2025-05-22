@@ -46,23 +46,27 @@ const Menu = () => {
             Abastecimento
           </li>
 
-          <li
-            onClick={() => handleNavigation('/Relatorio')}
-            className={selected === "Relatorio" ? styles.selected : ""}
-          >
-            Relatórios
-          </li>
-
-          <li
-            onClick={() => handleNavigation('/Relatorio-Novo')}
-            className={selected === "Relatorio Novo" ? styles.selected : ""}
-          >
-            Relatório Novo
-          </li>
-
-          {/* Menu de Cadastros apenas para administradores */}
+          {/* Menu de Cadastros e Relatórios apenas para administradores */}
           {funcao === 'administrador' && (
             <>
+              <div className={styles.label}>
+                <span>Relatórios</span>
+              </div>
+
+              <li
+                onClick={() => handleNavigation('/Relatorio')}
+                className={selected === "Relatorio" ? styles.selected : ""}
+              >
+                Relatórios
+              </li>
+
+              <li
+                onClick={() => handleNavigation('/Relatorio-Novo')}
+                className={selected === "Relatorio Novo" ? styles.selected : ""}
+              >
+                Relatório Novo
+              </li>
+
               <div className={styles.label}>
                 <span>Cadastros</span>
               </div>
@@ -90,7 +94,10 @@ const Menu = () => {
             </>
           )}
 
-          <li onClick={() => navigate('/')}>
+          <li onClick={() => {
+            auth.logout();
+            navigate('/');
+            }}>
             <img src={logout} alt="logout" />
           </li>
         </ul>

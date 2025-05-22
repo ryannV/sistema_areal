@@ -5,12 +5,14 @@ import logo from "../../assets/areal-logo-sf.png";
 import user from "../../assets/usuario.png";
 import lock from "../../assets/cadeado.png";
 import { jwtDecode } from 'jwt-decode';
+import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth(); // Correção: usa o método login do AuthContext
 
   const handleLogin = async () => {
     try {
@@ -27,13 +29,15 @@ const Login = () => {
       if (response.ok) {
         const token = data.token;
 
-        localStorage.setItem("token", token);
-
         const decoded = jwtDecode(token);
-        const role = decoded["role"] || decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+        const role =
+          decoded["role"] ||
+          decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
 
-        localStorage.setItem("role", role);
+        // Atualiza o contexto de autenticação
+        login(token, role);
 
+        // Redireciona para a rota principal
         navigate("/main");
       } else {
         setErro(data.message || "Erro ao fazer login.");
