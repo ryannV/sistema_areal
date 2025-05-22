@@ -22,6 +22,7 @@ const Menu = () => {
       "/Usuario": "Usuario",
       "/Maquinario": "Maquinario",
       "/Relatorio": "Relatorio",
+      "/Relatorio-Novo": "Relatorio Novo",
       "/Fornecedor": "Fornecedor"
     };
     setSelected(pathToLabel[location.pathname]);
@@ -50,6 +51,13 @@ const Menu = () => {
             className={selected === "Relatorio" ? styles.selected : ""}
           >
             Relatórios
+          </li>
+
+          <li
+            onClick={() => handleNavigation('/Relatorio-Novo')}
+            className={selected === "Relatorio Novo" ? styles.selected : ""}
+          >
+            Relatório Novo
           </li>
 
           {/* Menu de Cadastros apenas para administradores */}

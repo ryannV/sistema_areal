@@ -4,54 +4,83 @@ import Titulo from "../reply/Titulo";
 import styles from "./Abastecimento.module.css";
 
 const Abastecimento = () => {
-  const [maquinarios, setMaquinarios] = useState([]); // Lista de maquinários
-  const [selectedMaquinario, setSelectedMaquinario] = useState(""); // ID do maquinário selecionado
-  const [quantidade, setQuantidade] = useState(""); // Quantidade abastecida
-  const [mensagem, setMensagem] = useState(""); // Mensagem de feedback
+  const [maquinarios, setMaquinarios] = useState([]);
+  const [selectedMaquinario, setSelectedMaquinario] = useState("");
+  const [quantidade, setQuantidade] = useState("");
+  const [mensagem, setMensagem] = useState("");
 
-  // 🚀 Carrega os maquinários ao carregar a página
+  // ✅ Recupera o token do localStorage
+  const token = localStorage.getItem("token");
+
+  // 🚜 Carrega os maquinários
   useEffect(() => {
-    fetch("http://localhost:5209/api/Maquinario/listar") // Ajuste a URL conforme necessário
-      .then((response) => response.json())
-      .then((data) => setMaquinarios(data))
-      .catch((error) => console.error("Erro ao buscar maquinários:", error));
-  }, []);
-
-  // 🎯 Envia o abastecimento para a API
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-  
-    if (!selectedMaquinario || !quantidade) {
-      alert("Por favor, selecione um maquinário e informe a quantidade.");
+    if (!token) {
+      setMensagem("Token não encontrado. Faça login novamente.");
       return;
     }
-  
+
+    fetch("http://localhost:5209/api/Maquinario/listar", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao buscar maquinários.");
+        }
+        return response.json();
+      })
+      .then((data) => setMaquinarios(data))
+      .catch((error) => {
+        console.error(error);
+        setMensagem("Erro ao buscar maquinários.");
+      });
+  }, [token]);
+
+  // 🛢️ Envia o abastecimento
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!selectedMaquinario || !quantidade) {
+      setMensagem("Por favor, selecione um maquinário e informe a quantidade.");
+      return;
+    }
+
+    if (!token) {
+      setMensagem("Token não encontrado. Faça login novamente.");
+      return;
+    }
+
     const abastecimento = {
       maquinarioId: selectedMaquinario,
       quantidadeLitros: parseFloat(quantidade),
-      data: new Date().toISOString()
+      data: new Date().toISOString(),
     };
-  
+
     try {
       const response = await fetch("http://localhost:5209/api/Abastecimento/cadastrar", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // ✅ Token aqui
+        },
         body: JSON.stringify(abastecimento),
       });
-  
+
       if (response.ok) {
-        alert("Abastecimento registrado com sucesso!");
+        setMensagem("✅ Abastecimento registrado com sucesso!");
         setSelectedMaquinario("");
         setQuantidade("");
       } else {
-        alert("Erro ao registrar abastecimento.");
+        const errorText = await response.text();
+        setMensagem(`❌ Erro: ${errorText}`);
       }
     } catch (error) {
-      alert("Erro ao conectar-se à API.");
       console.error("Erro:", error);
+      setMensagem("❌ Erro ao conectar-se à API.");
     }
   };
-  
+
   return (
     <div>
       <Titulo />
@@ -59,14 +88,12 @@ const Abastecimento = () => {
         <Menu />
         <main className={styles.container_second}>
           <form className={styles.center} onSubmit={handleSubmit}>
-
             <div className={styles.boxes}>
               <label htmlFor="comboBox">Maquinário</label>
-
-              <select 
-                className={styles.inputs} 
-                id="comboBox" 
-                value={selectedMaquinario} 
+              <select
+                className={styles.inputs}
+                id="comboBox"
+                value={selectedMaquinario}
                 onChange={(e) => setSelectedMaquinario(e.target.value)}
               >
                 <option value="">Selecione</option>
@@ -77,10 +104,17 @@ const Abastecimento = () => {
                 ))}
               </select>
 
-              <button type="button" className={styles.botao} onClick={() => { setSelectedMaquinario(""); setQuantidade(""); }}>
+              <button
+                type="button"
+                className={styles.botao}
+                onClick={() => {
+                  setSelectedMaquinario("");
+                  setQuantidade("");
+                }}
+              >
                 Limpar
               </button>
-            </div> {/* boxes */}
+            </div>
 
             <div className={styles.boxes}>
               <label htmlFor="quantidade">Quantidade (L)</label>
@@ -93,9 +127,10 @@ const Abastecimento = () => {
                 min="1"
                 step="0.1"
               />
-
-              <button type="submit" className={styles.botao}>Confirmar</button>
-            </div> {/* boxes */}
+              <button type="submit" className={styles.botao}>
+                Confirmar
+              </button>
+            </div>
 
             {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
           </form>
