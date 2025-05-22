@@ -3,6 +3,15 @@ import Menu from "../reply/Menu";
 import Titulo from "../reply/Titulo";
 import styles from './Relatorio.module.css';
 
+// Função para pegar o token e retornar os headers
+const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    return {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+    };
+};
+
 const Relatorio = () => {
     const [tiposMaquinarios, setTiposMaquinarios] = useState([]);
     const [maquinarios, setMaquinarios] = useState([]);
@@ -15,7 +24,9 @@ const Relatorio = () => {
     const itensPorPagina = 10;
 
     useEffect(() => {
-        fetch("http://localhost:5209/api/maquinario/tipos")
+        fetch("http://localhost:5209/api/maquinario/tipos", {
+            headers: getAuthHeaders()
+        })
             .then(res => res.json())
             .then(data => setTiposMaquinarios(data))
             .catch(err => console.error("Erro ao buscar tipos de maquinário:", err));
@@ -23,7 +34,9 @@ const Relatorio = () => {
 
     useEffect(() => {
         if (selectedTipo) {
-            fetch(`http://localhost:5209/api/maquinario?tipo=${selectedTipo}`)
+            fetch(`http://localhost:5209/api/maquinario?tipo=${selectedTipo}`, {
+                headers: getAuthHeaders()
+            })
                 .then(res => res.json())
                 .then(data => setMaquinarios(data))
                 .catch(err => console.error("Erro ao buscar maquinários:", err));
@@ -43,7 +56,10 @@ const Relatorio = () => {
         if (selectedMaquinario) url += `&maquinarioId=${selectedMaquinario}`;
 
         try {
-            const response = await fetch(url);
+            const response = await fetch(url, {
+                headers: getAuthHeaders()
+            });
+
             if (!response.ok) {
                 throw new Error(`Erro na API: ${response.status} ${response.statusText}`);
             }

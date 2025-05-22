@@ -13,17 +13,25 @@ const Maquinario = () => {
         e.preventDefault();
 
         const novoMaquinario = {
-            id: 0, // O backend deve gerar o ID automaticamente
+            id: 0,
             nome: maquinario,
             dataFabricacao,
             tipo
         };
+
+        const token = localStorage.getItem('token');
+  
+        if (!token) {
+            alert('Usuário não autenticado. Faça login novamente.');
+            return;
+        }
 
         try {
             const response = await fetch('http://localhost:5209/api/Maquinario/cadastrar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(novoMaquinario),
             });
@@ -31,7 +39,14 @@ const Maquinario = () => {
             if (response.ok) {
                 const data = await response.json();
                 alert(`Maquinário cadastrado com sucesso! ID: ${data.id}`);
+                setMaquinario('');
+                setDataFabricacao('');
+                setTipo('');
+            } else if (response.status === 401) {
+                alert('⚠️ Não autorizado! Verifique seu login ou token.');
             } else {
+                const errorText = await response.text();
+                console.error('Erro ao cadastrar:', errorText);
                 alert('Erro ao cadastrar maquinário!');
             }
         } catch (error) {
@@ -59,7 +74,6 @@ const Maquinario = () => {
                         <Input
                             type='date'
                             name="data"
-                            placeholder=''
                             htmlFor='data'
                             label='Data de Fabricação'
                             value={dataFabricacao}
@@ -83,7 +97,16 @@ const Maquinario = () => {
                             </div>
                         </div>
                         <div className={styles.botao}>
-                            <button type="reset" onClick={() => { setMaquinario(''); setDataFabricacao(''); setTipo(''); }}>Limpar</button>
+                            <button
+                                type="reset"
+                                onClick={() => {
+                                    setMaquinario('');
+                                    setDataFabricacao('');
+                                    setTipo('');
+                                }}
+                            >
+                                Limpar
+                            </button>
                             <button type="submit">Cadastrar</button>
                         </div>
                     </form>

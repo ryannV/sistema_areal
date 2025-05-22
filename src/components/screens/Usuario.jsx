@@ -9,7 +9,7 @@ const Usuario = () => {
         usuario: '', senha: '', confirmarSenha: '', email: '', cpf: '',
         rua: '', bairro: '', cep: '', cidade: '', estado: '', numero: '', funcao: '',
     });
-    
+
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -54,9 +54,14 @@ const Usuario = () => {
         setError('');
 
         try {
+            const token = localStorage.getItem('token'); // <-- Token JWT salvo no login
+
             const response = await fetch('http://localhost:5209/api/usuario/cadastrar', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
                 body: JSON.stringify(requestPayload),
             });
 
@@ -68,7 +73,10 @@ const Usuario = () => {
 
             console.log('✅ Usuário cadastrado com sucesso!');
             alert('Usuário cadastrado com sucesso!');
-            setFormData({ usuario: '', senha: '', confirmarSenha: '', email: '', cpf: '', rua: '', bairro: '', cep: '', cidade: '', estado: '', numero: '', funcao: '' });
+            setFormData({
+                usuario: '', senha: '', confirmarSenha: '', email: '', cpf: '',
+                rua: '', bairro: '', cep: '', cidade: '', estado: '', numero: '', funcao: '',
+            });
         } catch (error) {
             console.error('⚠️ Erro na requisição:', error);
             setError(error.message);
@@ -88,7 +96,6 @@ const Usuario = () => {
             return 'text';
         }
     };
-    
 
     return (
         <div>
