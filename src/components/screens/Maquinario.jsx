@@ -9,9 +9,13 @@ const Maquinario = () => {
     const [maquinario, setMaquinario] = useState('');
     const [dataFabricacao, setDataFabricacao] = useState('');
     const [tipo, setTipo] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
+        setLoading(true);
 
         const novoMaquinario = {
             id: 0,
@@ -22,17 +26,23 @@ const Maquinario = () => {
 
         try {
             const data = await maquinarioService.cadastrar(novoMaquinario);
-                alert(`Maquinário cadastrado com sucesso! ID: ${data.id}`);
-                setMaquinario('');
-                setDataFabricacao('');
-                setTipo('');
+            alert(`Maquinário cadastrado com sucesso! ID: ${data.id}`);
+            setMaquinario('');
+            setDataFabricacao('');
+            setTipo('');
         } catch (error) {
             console.error('Erro na requisição:', error);
             if (error.response?.status === 401) {
-                alert('⚠️ Não autorizado! Verifique seu login ou token.');
+                setError('⚠️ Não autorizado! Verifique seu login ou token.');
+            } else if (error.response?.data?.message) {
+                setError(error.response.data.message);
+            } else if (error.message) {
+                setError(`Erro ao cadastrar maquinário: ${error.message}`);
             } else {
-                alert(error.response?.data?.message || 'Erro ao conectar com a API.');
+                setError('Erro ao cadastrar maquinário. Por favor, tente novamente mais tarde.');
             }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -77,6 +87,9 @@ const Maquinario = () => {
                                 ))}
                             </div>
                         </div>
+
+                        {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+
                         <div className={styles.botao}>
                             <button
                                 type="reset"
@@ -84,11 +97,14 @@ const Maquinario = () => {
                                     setMaquinario('');
                                     setDataFabricacao('');
                                     setTipo('');
+                                    setError('');
                                 }}
                             >
                                 Limpar
                             </button>
-                            <button type="submit">Cadastrar</button>
+                            <button type="submit" disabled={loading}>
+                                {loading ? 'Cadastrando...' : 'Cadastrar'}
+                            </button>
                         </div>
                     </form>
                 </main>
