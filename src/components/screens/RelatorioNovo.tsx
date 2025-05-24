@@ -3,6 +3,7 @@ import DataTable from "../reply/DataTable";
 // @ts-ignore
 import Menu from "../reply/Menu.jsx";
 // @ts-ignore
+import { relatorioService } from '../../services';
 import Titulo from "../reply/Titulo.jsx";
 import styles from "./Relatorio.module.css";
 
@@ -38,9 +39,8 @@ const AbastecimentosPage: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/relatorios/dadosAbastecimento");
-        const json = await response.json();
-        setData(json);
+        const data = await relatorioService.listarDadosAbastecimento();
+        setData(data);
       } catch (error) {
         console.error("Erro ao buscar dados de abastecimento:", error);
       } finally {

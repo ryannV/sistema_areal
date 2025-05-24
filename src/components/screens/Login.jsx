@@ -1,50 +1,52 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Login.module.css";
 import logo from "../../assets/areal-logo-sf.png";
-import user from "../../assets/usuario.png";
 import lock from "../../assets/cadeado.png";
-import { jwtDecode } from 'jwt-decode';
+import user from "../../assets/usuario.png";
 import { useAuth } from '../../context/AuthContext';
+import { authService } from '../../services';
+import styles from "./Login.module.css";
 
 const Login = () => {
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth(); // Correção: usa o método login do AuthContext
+  const { login } = useAuth();
 
   const handleLogin = async () => {
+    if (!usuario || !senha) {
+      setErro("Por favor, preencha todos os campos");
+      return;
+    }
+
+    setLoading(true);
+    setErro("");
+
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ usuario, senha }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        const token = data.token;
-
-        const decoded = jwtDecode(token);
-        const role =
-          decoded["role"] ||
-          decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-
-        // Atualiza o contexto de autenticação
-        login(token, role);
-
-        // Redireciona para a rota principal
+      const data = await authService.login(usuario, senha);
+      const success = login(data.token);
+      
+      if (success) {
         navigate("/main");
       } else {
-        setErro(data.message || "Erro ao fazer login.");
+        setErro("Erro ao processar o token de autenticação");
       }
     } catch (error) {
       console.error("Erro ao fazer login:", error);
-      setErro("Erro ao conectar com o servidor. Tente novamente mais tarde.");
+      setErro(
+        error.response?.data?.message || 
+        "Erro ao conectar com o servidor. Tente novamente mais tarde."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleLogin();
     }
   };
 
@@ -62,6 +64,8 @@ const Login = () => {
             placeholder="Digite seu Usuário"
             value={usuario}
             onChange={(e) => setUsuario(e.target.value)}
+            onKeyDown={handleKeyDown}
+            disabled={loading}
           />
         </div>
 
@@ -74,6 +78,8 @@ const Login = () => {
             placeholder="Digite sua Senha"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
+            onKeyDown={handleKeyDown}
+            disabled={loading}
           />
         </div>
 
@@ -82,7 +88,12 @@ const Login = () => {
 
         {/* Botão de login */}
         <div className={styles.submit}>
-          <button onClick={handleLogin}>Acessar</button>
+          <button 
+            onClick={handleLogin}
+            disabled={loading}
+          >
+            {loading ? "Carregando..." : "Acessar"}
+          </button>
         </div>
       </div>
     </div>

@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import styles from './Usuario.module.css';
-import Titulo from '../reply/Titulo';
-import Menu from '../reply/Menu';
+import { usuarioService } from '../../services';
 import Input from '../reply/Input';
+import Menu from '../reply/Menu';
+import Titulo from '../reply/Titulo';
+import styles from './Usuario.module.css';
 
 const Usuario = () => {
     const [formData, setFormData] = useState({
@@ -54,23 +55,7 @@ const Usuario = () => {
         setError('');
 
         try {
-            const token = localStorage.getItem('token'); // <-- Token JWT salvo no login
-
-            const response = await fetch('http://localhost:5209/api/usuario/cadastrar', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify(requestPayload),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.text();
-                console.error('❌ Erro no servidor:', errorData);
-                throw new Error(errorData || 'Erro ao cadastrar usuário');
-            }
-
+            await usuarioService.cadastrar(requestPayload);
             console.log('✅ Usuário cadastrado com sucesso!');
             alert('Usuário cadastrado com sucesso!');
             setFormData({
@@ -79,7 +64,7 @@ const Usuario = () => {
             });
         } catch (error) {
             console.error('⚠️ Erro na requisição:', error);
-            setError(error.message);
+            setError(error.response?.data?.message || 'Erro ao cadastrar usuário');
         } finally {
             setLoading(false);
         }
