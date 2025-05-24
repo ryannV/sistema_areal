@@ -1,16 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { maquinarioService, relatorioService } from '../../services';
 import Menu from "../reply/Menu";
 import Titulo from "../reply/Titulo";
 import styles from './Relatorio.module.css';
-
-// Função para pegar o token e retornar os headers
-const getAuthHeaders = () => {
-    const token = localStorage.getItem('token');
-    return {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-    };
-};
 
 const Relatorio = () => {
     const [tiposMaquinarios, setTiposMaquinarios] = useState([]);
@@ -24,25 +16,31 @@ const Relatorio = () => {
     const itensPorPagina = 10;
 
     useEffect(() => {
-        fetch("http://localhost:5209/api/maquinario/tipos", {
-            headers: getAuthHeaders()
-        })
-            .then(res => res.json())
-            .then(data => setTiposMaquinarios(data))
-            .catch(err => console.error("Erro ao buscar tipos de maquinário:", err));
+        const carregarTipos = async () => {
+            try {
+                const data = await maquinarioService.listarTipos();
+                setTiposMaquinarios(data);
+            } catch (err) {
+                console.error("Erro ao buscar tipos de maquinário:", err);
+            }
+        };
+        carregarTipos();
     }, []);
 
     useEffect(() => {
-        if (selectedTipo) {
-            fetch(`http://localhost:5209/api/maquinario?tipo=${selectedTipo}`, {
-                headers: getAuthHeaders()
-            })
-                .then(res => res.json())
-                .then(data => setMaquinarios(data))
-                .catch(err => console.error("Erro ao buscar maquinários:", err));
-        } else {
-            setMaquinarios([]);
-        }
+        const carregarMaquinarios = async () => {
+            if (selectedTipo) {
+                try {
+                    const data = await maquinarioService.listarPorTipo(selectedTipo);
+                    setMaquinarios(data);
+                } catch (err) {
+                    console.error("Erro ao buscar maquinários:", err);
+                }
+            } else {
+                setMaquinarios([]);
+            }
+        };
+        carregarMaquinarios();
     }, [selectedTipo]);
 
     const gerarRelatorio = async () => {
@@ -51,20 +49,15 @@ const Relatorio = () => {
             return;
         }
 
-        let url = `http://localhost:5209/api/relatorios/gerar?dataInicial=${dataInicio}&dataFinal=${dataFim}`;
-        if (selectedTipo) url += `&tipoMaquinario=${selectedTipo}`;
-        if (selectedMaquinario) url += `&maquinarioId=${selectedMaquinario}`;
-
         try {
-            const response = await fetch(url, {
-                headers: getAuthHeaders()
-            });
+            const params = {
+                dataInicial: dataInicio,
+                dataFinal: dataFim,
+                ...(selectedTipo && { tipoMaquinario: selectedTipo }),
+                ...(selectedMaquinario && { maquinarioId: selectedMaquinario })
+            };
 
-            if (!response.ok) {
-                throw new Error(`Erro na API: ${response.status} ${response.statusText}`);
-            }
-
-            const data = await response.json();
+            const data = await relatorioService.gerar(params);
 
             if (data.length === 0) {
                 alert("Nenhum dado encontrado para o intervalo selecionado.");

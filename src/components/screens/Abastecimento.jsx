@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { abastecimentoService } from '../../services';
 import Menu from "../reply/Menu";
 import Titulo from "../reply/Titulo";
 import styles from "./Abastecimento.module.css";
@@ -9,33 +10,20 @@ const Abastecimento = () => {
   const [quantidade, setQuantidade] = useState("");
   const [mensagem, setMensagem] = useState("");
 
-  // ✅ Recupera o token do localStorage
-  const token = localStorage.getItem("token");
-
   // 🚜 Carrega os maquinários
   useEffect(() => {
-    if (!token) {
-      setMensagem("Token não encontrado. Faça login novamente.");
-      return;
-    }
-
-    fetch("http://localhost:5209/api/Abastecimento/maquinarios", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Erro ao buscar maquinários.");
-        }
-        return response.json();
-      })
-      .then((data) => setMaquinarios(data))
-      .catch((error) => {
+    const carregarMaquinarios = async () => {
+      try {
+        const data = await abastecimentoService.listarMaquinarios();
+        setMaquinarios(data);
+      } catch (error) {
         console.error(error);
         setMensagem("Erro ao buscar maquinários.");
-      });
-  }, [token]);
+      }
+    };
+
+    carregarMaquinarios();
+  }, []);
 
   // 🛢️ Envia o abastecimento
   const handleSubmit = async (event) => {
@@ -46,11 +34,6 @@ const Abastecimento = () => {
       return;
     }
 
-    if (!token) {
-      setMensagem("Token não encontrado. Faça login novamente.");
-      return;
-    }
-
     const abastecimento = {
       maquinarioId: selectedMaquinario,
       quantidadeLitros: parseFloat(quantidade),
@@ -58,26 +41,13 @@ const Abastecimento = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:5209/api/Abastecimento/cadastrar", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // ✅ Token aqui
-        },
-        body: JSON.stringify(abastecimento),
-      });
-
-      if (response.ok) {
+      await abastecimentoService.cadastrar(abastecimento);
         setMensagem("✅ Abastecimento registrado com sucesso!");
         setSelectedMaquinario("");
         setQuantidade("");
-      } else {
-        const errorText = await response.text();
-        setMensagem(`❌ Erro: ${errorText}`);
-      }
     } catch (error) {
       console.error("Erro:", error);
-      setMensagem("❌ Erro ao conectar-se à API.");
+      setMensagem(error.response?.data?.message || "❌ Erro ao conectar-se à API.");
     }
   };
 
