@@ -51,21 +51,34 @@ const Abastecimento = () => {
       return;
     }
 
+    const dataBrasileira = new Intl.DateTimeFormat("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    }).format(new Date());
+
     const abastecimento = {
       maquinarioId: selectedMaquinario,
       quantidadeLitros: parseFloat(quantidade),
-      data: new Date().toISOString(),
+      data: dataBrasileira,
     };
 
     try {
-      const response = await fetch("http://localhost:5209/api/Abastecimento/cadastrar", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // ✅ Token aqui
-        },
-        body: JSON.stringify(abastecimento),
-      });
+      const response = await fetch(
+        "http://localhost:5209/api/Abastecimento/cadastrar",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // ✅ Token aqui
+          },
+          body: JSON.stringify(abastecimento),
+        }
+      );
 
       if (response.ok) {
         setMensagem("✅ Abastecimento registrado com sucesso!");

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Menu.module.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from '../../context/AuthContext';
-import logout from '../../assets/door-closed.svg';
+import { useAuth } from "../../context/AuthContext";
+import logout from "../../assets/door-closed.svg";
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const Menu = () => {
       "/Maquinario": "Maquinario",
       "/Relatorio": "Relatorio",
       "/Relatorio-Novo": "Relatorio Novo",
-      "/Fornecedor": "Fornecedor"
+      "/Fornecedor": "Fornecedor",
     };
     setSelected(pathToLabel[location.pathname]);
   }, [location.pathname]);
@@ -33,60 +33,60 @@ const Menu = () => {
       <nav className={styles.navigator}>
         <ul>
           <li
-            onClick={() => handleNavigation('/Main')}
+            onClick={() => handleNavigation("/Main")}
             className={selected === "Menu Principal" ? styles.selected : ""}
           >
             Menu Principal
           </li>
 
           <li
-            onClick={() => handleNavigation('/Abastecimento')}
+            onClick={() => handleNavigation("/Abastecimento")}
             className={selected === "Abastecimento" ? styles.selected : ""}
           >
             Abastecimento
           </li>
 
           {/* Menu de Cadastros e Relatórios apenas para administradores */}
-          {funcao === 'administrador' && (
+          {funcao === "administrador" && (
             <>
               <div className={styles.label}>
                 <span>Relatórios</span>
               </div>
 
               <li
-                onClick={() => handleNavigation('/Relatorio')}
+                onClick={() => handleNavigation("/Relatorio")}
                 className={selected === "Relatorio" ? styles.selected : ""}
               >
                 Relatórios
               </li>
 
-              <li
+              {/* <li
                 onClick={() => handleNavigation('/Relatorio-Novo')}
                 className={selected === "Relatorio Novo" ? styles.selected : ""}
               >
                 Relatório Novo
-              </li>
+              </li> */}
 
               <div className={styles.label}>
                 <span>Cadastros</span>
               </div>
 
               <li
-                onClick={() => handleNavigation('/Usuario')}
+                onClick={() => handleNavigation("/Usuario")}
                 className={selected === "Usuario" ? styles.selected : ""}
               >
                 Usuário
               </li>
 
               <li
-                onClick={() => handleNavigation('/Maquinario')}
+                onClick={() => handleNavigation("/Maquinario")}
                 className={selected === "Maquinario" ? styles.selected : ""}
               >
                 Maquinário
               </li>
 
               <li
-                onClick={() => handleNavigation('/Fornecedor')}
+                onClick={() => handleNavigation("/Fornecedor")}
                 className={selected === "Fornecedor" ? styles.selected : ""}
               >
                 Fornecedor
@@ -94,10 +94,12 @@ const Menu = () => {
             </>
           )}
 
-          <li onClick={() => {
-            auth.logout();
-            navigate('/');
-            }}>
+          <li
+            onClick={() => {
+              auth.logout();
+              navigate("/");
+            }}
+          >
             <img src={logout} alt="logout" />
           </li>
         </ul>
