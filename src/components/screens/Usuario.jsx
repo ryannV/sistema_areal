@@ -57,7 +57,7 @@ const Usuario = () => {
         try {
             const token = localStorage.getItem('token'); // <-- Token JWT salvo no login
 
-            const response = await fetch('http://4.201.154.196:5000/api/usuario/cadastrar', {
+            const response = await fetch('api/usuario/cadastrar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

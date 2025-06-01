@@ -25,7 +25,7 @@ const Relatorio = () => {
   const itensPorPagina = 10;
 
   useEffect(() => {
-    fetch("http://4.201.154.196:5000/api/maquinario/tipos", {
+    fetch("api/maquinario/tipos", {
       headers: getAuthHeaders(),
     })
       .then((res) => res.json())
@@ -37,7 +37,7 @@ const Relatorio = () => {
 
   useEffect(() => {
     if (selectedTipo) {
-      fetch(`http://4.201.154.196:5000/api/maquinario?tipo=${selectedTipo}`, {
+      fetch(`api/maquinario?tipo=${selectedTipo}`, {
         headers: getAuthHeaders(),
       })
         .then((res) => res.json())
@@ -54,7 +54,7 @@ const Relatorio = () => {
       return;
     }
 
-    let url = `http://4.201.154.196:5000/api/relatorios/gerar-pdf?dataInicial=${dataInicio}&dataFinal=${dataFim}`;
+    let url = `api/relatorios/gerar-pdf?dataInicial=${dataInicio}&dataFinal=${dataFim}`;
     if (selectedTipo) url += `&tipoMaquinario=${selectedTipo}`;
     if (selectedMaquinario) url += `&maquinarioId=${selectedMaquinario}`;
 

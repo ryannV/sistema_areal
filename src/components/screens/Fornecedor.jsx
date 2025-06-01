@@ -61,7 +61,7 @@ const Fornecedor = () => {
       }
 
       const response = await axios.post(
-        'http://4.201.154.196:5000/api/Fornecedor/cadastrar',
+        'api/Fornecedor/cadastrar',
         fornecedor,
         {
           headers: {

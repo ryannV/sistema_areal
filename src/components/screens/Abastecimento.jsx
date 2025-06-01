@@ -20,7 +20,7 @@ const Abastecimento = () => {
       return;
     }
 
-    fetch("http://4.201.154.196:5000/api/Abastecimento/maquinarios", {
+    fetch("api/Abastecimento/maquinarios", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -70,7 +70,7 @@ const Abastecimento = () => {
 
     try {
       const response = await fetch(
-        "http://4.201.154.196:5000/api/Abastecimento/cadastrar",
+        "api/Abastecimento/cadastrar",
         {
           method: "POST",
           headers: {

@@ -28,7 +28,7 @@ const Maquinario = () => {
         }
 
         try {
-            const response = await fetch('http://4.201.154.196:5000/api/Maquinario/cadastrar', {
+            const response = await fetch('api/Maquinario/cadastrar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
