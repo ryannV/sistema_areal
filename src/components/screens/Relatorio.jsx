@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Menu from "../reply/Menu";
 import Titulo from "../reply/Titulo";
 import styles from "./Relatorio.module.css";
+import Footer from "../reply/Footer";
 
 // Função para pegar o token e retornar os headers
 const getAuthHeaders = () => {
@@ -24,7 +25,7 @@ const Relatorio = () => {
   const itensPorPagina = 10;
 
   useEffect(() => {
-    fetch("http://localhost:5209/api/maquinario/tipos", {
+    fetch("http://4.201.154.196:5000/api/maquinario/tipos", {
       headers: getAuthHeaders(),
     })
       .then((res) => res.json())
@@ -36,7 +37,7 @@ const Relatorio = () => {
 
   useEffect(() => {
     if (selectedTipo) {
-      fetch(`http://localhost:5209/api/maquinario?tipo=${selectedTipo}`, {
+      fetch(`http://4.201.154.196:5000/api/maquinario?tipo=${selectedTipo}`, {
         headers: getAuthHeaders(),
       })
         .then((res) => res.json())
@@ -53,7 +54,7 @@ const Relatorio = () => {
       return;
     }
 
-    let url = `http://localhost:5209/api/relatorios/gerar-pdf?dataInicial=${dataInicio}&dataFinal=${dataFim}`;
+    let url = `http://4.201.154.196:5000/api/relatorios/gerar-pdf?dataInicial=${dataInicio}&dataFinal=${dataFim}`;
     if (selectedTipo) url += `&tipoMaquinario=${selectedTipo}`;
     if (selectedMaquinario) url += `&maquinarioId=${selectedMaquinario}`;
 
@@ -114,7 +115,7 @@ const Relatorio = () => {
   );
 
   return (
-    <div>
+    <div  className={styles.wrapper}>
       <Titulo />
       <section className={styles.container}>
         <Menu />
@@ -221,6 +222,7 @@ const Relatorio = () => {
           )}
         </main>
       </section>
+      <Footer />
     </div>
   );
 };

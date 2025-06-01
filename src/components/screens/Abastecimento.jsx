@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Menu from "../reply/Menu";
 import Titulo from "../reply/Titulo";
 import styles from "./Abastecimento.module.css";
+import Footer from "../reply/Footer";
 
 const Abastecimento = () => {
   const [maquinarios, setMaquinarios] = useState([]);
@@ -19,7 +20,7 @@ const Abastecimento = () => {
       return;
     }
 
-    fetch("http://localhost:5209/api/Abastecimento/maquinarios", {
+    fetch("http://4.201.154.196:5000/api/Abastecimento/maquinarios", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -69,7 +70,7 @@ const Abastecimento = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5209/api/Abastecimento/cadastrar",
+        "http://4.201.154.196:5000/api/Abastecimento/cadastrar",
         {
           method: "POST",
           headers: {
@@ -95,7 +96,7 @@ const Abastecimento = () => {
   };
 
   return (
-    <div>
+    <div className={styles.wrapper}>
       <Titulo />
       <section className={styles.container}>
         <Menu />
@@ -144,11 +145,11 @@ const Abastecimento = () => {
                 Confirmar
               </button>
             </div>
-
-            {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
           </form>
+          {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
         </main>
       </section>
+      <Footer />
     </div>
   );
 };

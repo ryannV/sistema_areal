@@ -1,4 +1,4 @@
-.container {
+/* .container {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -12,14 +12,32 @@
 .container_second {
     align-items: center;
     display: flex;
+    max-width: 400px;
     flex-direction: column;
-    /* tira o foco da div */
     user-select: none;
+} */
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* ocupa 100% da altura da tela */
+    background-color: #f9f9f9; /* opcional, só para destaque visual */
 }
 
-.border{
-    border: 2px solid aquamarine;
+.container_second {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+    width: 100%;
+    padding: 50px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
+    background-color: white; /* opcional */
 }
+
 
 .campos{
     display: flex;
@@ -42,6 +60,19 @@
     width: 100%;
     display: flex;
     justify-content: space-around;
+}
+
+.erro {
+    height: 1.6em; /* reserva espaço suficiente para o texto da mensagem */
+    color: red;
+    margin-bottom: 1em;
+    font-size: 0.9em;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 1;
+}
+
+.oculto {
+    opacity: 0;
 }
 
 button{

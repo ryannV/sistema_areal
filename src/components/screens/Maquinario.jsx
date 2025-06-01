@@ -3,6 +3,7 @@ import styles from './Maquinario.module.css';
 import Titulo from '../reply/Titulo';
 import Menu from '../reply/Menu';
 import Input from '../reply/Input';
+import Footer from '../reply/Footer';
 
 const Maquinario = () => {
     const [maquinario, setMaquinario] = useState('');
@@ -27,7 +28,7 @@ const Maquinario = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:5209/api/Maquinario/cadastrar', {
+            const response = await fetch('http://4.201.154.196:5000/api/Maquinario/cadastrar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -56,7 +57,7 @@ const Maquinario = () => {
     };
 
     return (
-        <div>
+        <div  className={styles.wrapper}>
             <Titulo />
             <section className={styles.container}>
                 <Menu />
@@ -112,6 +113,7 @@ const Maquinario = () => {
                     </form>
                 </main>
             </section>
+            <Footer />
         </div>
     );
 };

@@ -16,7 +16,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch("api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,9 +44,24 @@ const Login = () => {
       }
     } catch (error) {
       console.error("Erro ao fazer login:", error);
-      setErro("Erro ao conectar com o servidor. Tente novamente mais tarde.");
+      setErro("Erro com o servidor, tente mais tarde.");
     }
   };
+
+  const handleUsuario = (e) => {
+    setUsuario(e.target.value);
+    setErro("");
+  }
+
+  const handleSenha = (e) => {
+    setSenha(e.target.value);
+    setErro("");
+  }
+
+  const handleEnter = async (e) => {
+    if ((e.key !== "Enter")) return;
+    handleLogin();
+  }
 
   return (
     <div className={styles.container}>
@@ -61,7 +76,7 @@ const Login = () => {
             type="text"
             placeholder="Digite seu Usuário"
             value={usuario}
-            onChange={(e) => setUsuario(e.target.value)}
+            onChange={handleUsuario}
           />
         </div>
 
@@ -73,12 +88,16 @@ const Login = () => {
             type="password"
             placeholder="Digite sua Senha"
             value={senha}
-            onChange={(e) => setSenha(e.target.value)}
+            onChange={handleSenha}
+            onKeyUp={handleEnter}
           />
         </div>
 
         {/* Mensagem de erro */}
-        {erro && <p className={styles.erro}>{erro}</p>}
+        <span className={`${styles.erro} ${erro ? '' : styles.oculto}`}>
+          {erro || ''} 
+        </span>
+
 
         {/* Botão de login */}
         <div className={styles.submit}>

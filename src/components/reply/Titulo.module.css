@@ -1,20 +1,17 @@
-.top_title{
-    width: 100%;
-    border-bottom: 2px solid #1a4f77;
-    background-color: #fff;
-    color: #1a4f77;
-    align-items: center;
-    user-select: none;
-    padding: 7px;
-    display: flex;
-    justify-content: center;
+.header {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: #1a4f77;
+  color: white;
+  gap: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.logo{
-    width: 50px;
-    height: 50px;
+.logo {
+  width: 50px;
 }
 
-.flex{
-    display: flex;
+.title {
+  font-size: 1.5rem;
 }

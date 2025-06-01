@@ -3,12 +3,17 @@ import styles from "./Menu.module.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import logout from "../../assets/door-closed.svg";
+import { Menu as MenuIcon } from "lucide-react";
 
 const Menu = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const auth = useAuth(); // uso seguro
-  const funcao = auth?.usuario?.funcao || ""; // evita erro de undefined
+  const auth = useAuth();
+  const funcao = auth?.usuario?.funcao || "";
+  const [recolhido, setRecolhido] = useState(() => {
+    const stored = localStorage.getItem("menuRecolhido");
+    return stored === "true";
+  });
   const [selected, setSelected] = useState();
 
   const handleNavigation = (path) => {
@@ -28,83 +33,76 @@ const Menu = () => {
     setSelected(pathToLabel[location.pathname]);
   }, [location.pathname]);
 
+  const toggleMenu = () => {
+    setRecolhido(prev => {
+      const novoEstado = !prev;
+      localStorage.setItem("menuRecolhido", novoEstado);
+      return novoEstado;
+    });
+  };
+
   return (
-    <div className={styles.container}>
+    <aside className={`${styles.container} ${recolhido ? styles.recolhido : ""}`}>
+      <div className={styles.toggle} onClick={toggleMenu}>
+        <MenuIcon />
+      </div>
       <nav className={styles.navigator}>
         <ul>
           <li
             onClick={() => handleNavigation("/Main")}
             className={selected === "Menu Principal" ? styles.selected : ""}
           >
-            Menu Principal
+            🏠 <span>Menu Principal</span>
           </li>
-
           <li
             onClick={() => handleNavigation("/Abastecimento")}
             className={selected === "Abastecimento" ? styles.selected : ""}
           >
-            Abastecimento
+            ⛽ <span>Abastecimento</span>
           </li>
 
-          {/* Menu de Cadastros e Relatórios apenas para administradores */}
           {funcao === "administrador" && (
             <>
-              <div className={styles.label}>
+              <div  className={`${styles.label} ${recolhido ? styles.labelHidden : ""}`}>
                 <span>Relatórios</span>
               </div>
-
               <li
                 onClick={() => handleNavigation("/Relatorio")}
                 className={selected === "Relatorio" ? styles.selected : ""}
               >
-                Relatórios
+                📄 <span>Relatórios</span>
               </li>
 
-              {/* <li
-                onClick={() => handleNavigation('/Relatorio-Novo')}
-                className={selected === "Relatorio Novo" ? styles.selected : ""}
-              >
-                Relatório Novo
-              </li> */}
-
-              <div className={styles.label}>
+              <div  className={`${styles.label} ${recolhido ? styles.labelHidden : ""}`}>
                 <span>Cadastros</span>
               </div>
-
               <li
                 onClick={() => handleNavigation("/Usuario")}
                 className={selected === "Usuario" ? styles.selected : ""}
               >
-                Usuário
+                👤 <span>Usuário</span>
               </li>
-
               <li
                 onClick={() => handleNavigation("/Maquinario")}
                 className={selected === "Maquinario" ? styles.selected : ""}
               >
-                Maquinário
+                🚜 <span>Maquinário</span>
               </li>
-
               <li
                 onClick={() => handleNavigation("/Fornecedor")}
                 className={selected === "Fornecedor" ? styles.selected : ""}
               >
-                Fornecedor
+                📦 <span>Fornecedor</span>
               </li>
             </>
           )}
 
-          <li
-            onClick={() => {
-              auth.logout();
-              navigate("/");
-            }}
-          >
-            <img src={logout} alt="logout" />
+          <li onClick={() => { auth.logout(); navigate("/"); }}>
+            <img src={logout} alt="logout" className={styles.logout} />
           </li>
         </ul>
       </nav>
-    </div>
+    </aside>
   );
 };
 

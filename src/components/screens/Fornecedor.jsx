@@ -5,6 +5,7 @@ import Menu from '../reply/Menu';
 import Titulo from '../reply/Titulo';
 import styles from './Fornecedor.module.css';
 import { jwtDecode } from 'jwt-decode';
+import Footer from '../reply/Footer';
 
 const Fornecedor = () => {
   const [fornecedor, setFornecedor] = useState({
@@ -60,7 +61,7 @@ const Fornecedor = () => {
       }
 
       const response = await axios.post(
-        'http://localhost:5209/api/Fornecedor/cadastrar',
+        'http://4.201.154.196:5000/api/Fornecedor/cadastrar',
         fornecedor,
         {
           headers: {
@@ -81,7 +82,7 @@ const Fornecedor = () => {
   };
 
   return (
-    <div>
+    <div  className={styles.wrapper}>
       <Titulo />
       <section className={styles.container}>
         <Menu />
@@ -178,6 +179,7 @@ const Fornecedor = () => {
           </div>
         </main>
       </section>
+      <Footer />
     </div>
   );
 };

@@ -1,6 +1,12 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 .container {
     display: flex;
-    height: 100vh; /* Ocupa 100% da altura da tela */
+    flex: 1;
 }
 
 .container_second {
@@ -12,8 +18,9 @@
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease-in-out;
+    flex: 1;
+    overflow-y: auto;
 }
-
 .flex{
     display: flex;
 }

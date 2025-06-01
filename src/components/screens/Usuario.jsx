@@ -3,6 +3,7 @@ import styles from './Usuario.module.css';
 import Titulo from '../reply/Titulo';
 import Menu from '../reply/Menu';
 import Input from '../reply/Input';
+import Footer from '../reply/Footer';
 
 const Usuario = () => {
     const [formData, setFormData] = useState({
@@ -56,7 +57,7 @@ const Usuario = () => {
         try {
             const token = localStorage.getItem('token'); // <-- Token JWT salvo no login
 
-            const response = await fetch('http://localhost:5209/api/usuario/cadastrar', {
+            const response = await fetch('http://4.201.154.196:5000/api/usuario/cadastrar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -97,8 +98,14 @@ const Usuario = () => {
         }
     };
 
+    const limparCampos = () => {
+        setFormData({usuario:'', senha:'', confirmarSenha:'', email:'', cpf:'',
+            rua: '', bairro: '', cep: '', cidade: '', estado: '', numero: '', funcao: ''
+        });
+    }
+
     return (
-        <div>
+        <div  className={styles.wrapper}>
             <Titulo />
             <section className={styles.container}>
                 <Menu />
@@ -162,12 +169,13 @@ const Usuario = () => {
                         {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
 
                         <div className={styles.botao}>
-                            <button type="reset">Limpar</button>
+                            <button type="reset" onClick={limparCampos}>Limpar</button>
                             <button type="submit" disabled={loading}>{loading ? 'Cadastrando...' : 'Cadastrar'}</button>
                         </div>
                     </form>
                 </main>
             </section>
+            <Footer />
         </div>
     );
 };
