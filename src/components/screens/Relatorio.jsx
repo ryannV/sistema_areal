@@ -120,7 +120,7 @@ const Relatorio = () => {
       <section className={styles.container}>
         <Menu />
         <main className={styles.container_second}>
-          <h4>Consulta de Consumo dos Maquinários</h4>
+          <h3 className={styles.title}>Consulta de Consumo dos Maquinários</h3>
           <section className={styles.center}>
             <div className={styles.boxes}>
               <label>Tipo de Maquinário</label>

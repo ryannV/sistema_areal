@@ -117,17 +117,6 @@ const Abastecimento = () => {
                   </option>
                 ))}
               </select>
-
-              <button
-                type="button"
-                className={styles.botao}
-                onClick={() => {
-                  setSelectedMaquinario("");
-                  setQuantidade("");
-                }}
-              >
-                Limpar
-              </button>
             </div>
 
             <div className={styles.boxes}>
@@ -141,6 +130,19 @@ const Abastecimento = () => {
                 min="1"
                 step="0.1"
               />
+            </div>
+
+            <div className={styles.botoesContainer}>
+              <button
+                type="button"
+                className={styles.botao}
+                onClick={() => {
+                  setSelectedMaquinario("");
+                  setQuantidade("");
+                }}
+              >
+                Limpar
+              </button>
               <button type="submit" className={styles.botao}>
                 Confirmar
               </button>

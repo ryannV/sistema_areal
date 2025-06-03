@@ -97,9 +97,9 @@ const Menu = () => {
             </>
           )}
 
-          <li onClick={() => { auth.logout(); navigate("/"); }}>
+          {/* <li onClick={() => { auth.logout(); navigate("/"); }}>
             <img src={logout} alt="logout" className={styles.logout} />
-          </li>
+          </li> */}
         </ul>
       </nav>
     </aside>

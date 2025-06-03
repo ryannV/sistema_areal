@@ -11,10 +11,13 @@ const Login = () => {
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth(); // Correção: usa o método login do AuthContext
 
   const handleLogin = async () => {
+    setLoading(true);     // Inicia loading
+    setErro("");          // Limpa erro anterior
     try {
       const response = await fetch("api/auth/login", {
         method: "POST",
@@ -45,6 +48,8 @@ const Login = () => {
     } catch (error) {
       console.error("Erro ao fazer login:", error);
       setErro("Erro com o servidor, tente mais tarde.");
+    } finally {
+      setLoading(false); // Sempre para o loading no final
     }
   };
 
@@ -93,11 +98,10 @@ const Login = () => {
           />
         </div>
 
-        {/* Mensagem de erro */}
-        <span className={`${styles.erro} ${erro ? '' : styles.oculto}`}>
-          {erro || ''} 
+        {/* Mensagem de erro ou loading */}
+        <span className={`${styles.erro} ${(erro || loading) ? '' : styles.oculto}`}>
+          {loading ? <span className={styles.loader}></span> : erro}
         </span>
-
 
         {/* Botão de login */}
         <div className={styles.submit}>
