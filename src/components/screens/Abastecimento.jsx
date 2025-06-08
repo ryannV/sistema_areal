@@ -52,34 +52,47 @@ const Abastecimento = () => {
       return;
     }
 
-    const dataBrasileira = new Intl.DateTimeFormat("pt-BR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false,
-    }).format(new Date());
+    function dataAbastecimento() {
+      const date = new Date();
+
+      // Pega partes da data local (ano, mês, dia, hora, min, seg)
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const hour = String(date.getHours()).padStart(2, "0");
+      const minute = String(date.getMinutes()).padStart(2, "0");
+      const second = String(date.getSeconds()).padStart(2, "0");
+
+      // Calcula offset no formato ±HH:mm
+      const tzOffsetMin = date.getTimezoneOffset();
+      const sinal = tzOffsetMin > 0 ? "-" : "+";
+      const offsetHour = String(
+        Math.floor(Math.abs(tzOffsetMin) / 60)
+      ).padStart(2, "0");
+      const offsetMinute = String(Math.abs(tzOffsetMin) % 60).padStart(2, "0");
+
+      const offset = `${sinal}${offsetHour}:${offsetMinute}`;
+
+      // Monta a string no formato ISO local com offset
+      return `${year}-${month}-${day}T${hour}:${minute}:${second}${offset}`;
+    }
 
     const abastecimento = {
       maquinarioId: selectedMaquinario,
       quantidadeLitros: parseFloat(quantidade),
-      data: dataBrasileira,
+      data: dataAbastecimento(),
     };
+    console.log("Abastecimentos: ", abastecimento);
 
     try {
-      const response = await fetch(
-        "api/Abastecimento/cadastrar",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // ✅ Token aqui
-          },
-          body: JSON.stringify(abastecimento),
-        }
-      );
+      const response = await fetch("api/Abastecimento/cadastrar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // ✅ Token aqui
+        },
+        body: JSON.stringify(abastecimento),
+      });
 
       if (response.ok) {
         setMensagem("✅ Abastecimento registrado com sucesso!");
